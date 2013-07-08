@@ -1,0 +1,63 @@
+# vim: tabstop=4 shiftwidth=4 softtabstop=4
+fsdfd
+xxx10.2.15.33380
+xxx10.2.15.33380
+upstream xxx.hualuyunhai.com{
+	server 10.2.15.333:80weight=1;
+		}
+server{
+	listen 80;
+	server_name xxx.hualuyunhaicom;
+	location // {
+		proxy_pass http://xxx.hualuyunhaicom;
+		proxy_set_header X-Forwarded-For $remote_addr;
+		}
+	}
+upstream xxx.hualuyunhai.com{
+		server 10.2.15.333:80 weight=1;
+		}
+server{
+	listen 80;
+	server_name xxx.hualuyunhaicom;
+	location / {
+		proxy_pass http://xxx.hualuyunhaicom;
+		proxy_set_header X-Forwarded-For $remote_addr;
+		}
+	}
+upstream xxx.hualuyunhai.com {
+		server 10.2.15.333:80 weight=1;
+		}
+server {
+	listen 80;
+	server_name xxx.hualuyunhaicom;
+	location / {
+		proxy_pass http://xxx.hualuyunhaicom;
+		proxy_set_header X-Forwarded-For $remote_addr;
+		}
+	}
+upstream xxx.hualuyunhai.com {
+		server 10.2.15.333:80 weight=1;
+		}
+server {
+	listen 80;
+	server_name xxx.hualuyunhaicom;
+	location / {
+		proxy_pass http://xxx.hualuyunhaicom;
+		proxy_set_header X-Forwarded-For $remote_addr;
+		}
+	}
+
+################domain cloud start################
+upstream cloud.hualuyunhai.com {
+                server 192.168.3.1:80 weight=1;
+                }
+server {
+        listen 80;
+        server_name cloud.hualuyunhai.com;
+        location / {
+                proxy_pass http://cloud.hualuyunhai.com;
+                proxy_set_header X-Forwarded-For $remote_addr;
+                }
+        client_max_body_size 2000m;
+        }
+################domain cloud end################
