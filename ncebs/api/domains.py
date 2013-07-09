@@ -37,7 +37,7 @@ class DomainsController(object):
         editor = DomainEditor(domain)
         editor.addDNS(name, ip, port)
         
-    def delete(self, req):
+    def delete(self, req, domain, name):
         editor = DomainEditor(domain)
         editor.delDNS(name)
 

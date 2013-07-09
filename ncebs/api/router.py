@@ -27,7 +27,7 @@ class API(wsgi.Router):
                        action='create',
                        conditions={'method': ['POST']})
         
-        mapper.connect('/domains/{domain_id}',
+        mapper.connect('/domains/{domain}/{name}',
                        controller=domain_resource,
                        action='delete',
                        conditions={'method': ['DELETE']})

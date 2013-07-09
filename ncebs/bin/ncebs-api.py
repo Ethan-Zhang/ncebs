@@ -1,10 +1,12 @@
+#!/usr/bin/env python
+
 '''
 Created on 2013-3-4
 
 @author: zhangbin
 '''
 import sys
-sys.path.append('/var/local/ncebs/ncebs')
+sys.path.append('/home/zhangbin/ncebs/ncebs')
 
 from common import log
 from common import wsgi
@@ -14,5 +16,5 @@ if __name__ == '__main__':
     
     log.setup('ncebs')
     server = wsgi.Server()
-    server.start(router.API.factory('aa'), default_port=80)
+    server.start(router.API.factory('aa'), default_port=9204)
     server.wait()

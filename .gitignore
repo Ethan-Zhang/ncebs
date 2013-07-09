@@ -3,6 +3,10 @@
 # C extensions
 *.so
 
+# runtime
+*.pyc
+*.pyo
+
 # Packages
 *.egg
 *.egg-info
@@ -20,6 +24,9 @@ lib64
 
 # Installer logs
 pip-log.txt
+
+# logs
+log/
 
 # Unit test / coverage reports
 .coverage

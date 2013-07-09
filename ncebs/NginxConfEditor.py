@@ -64,3 +64,8 @@ class DomainEditor(object):
             return True
         else:
             return False
+
+    def showDNS(self, name):
+        '''
+        '''
+        servers = self.ofd.read()

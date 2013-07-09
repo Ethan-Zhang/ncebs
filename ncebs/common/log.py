@@ -9,7 +9,7 @@ import traceback
 
 def setup(product_name):
     try:
-        logging.basicConfig(filename='/var/log/'+product_name ,level=logging.DEBUG)
+        logging.basicConfig(filename='/home/zhangbin/ncebs/log/'+product_name ,level=logging.DEBUG)
     except Exception:
         traceback.print_exc()
         raise

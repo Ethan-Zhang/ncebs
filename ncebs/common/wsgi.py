@@ -49,7 +49,7 @@ class Server(object):
             signal.signal(signal.SIGHUP, signal.SIG_IGN)
             self.running = False
         self.application = application
-        self.sock = eventlet.listen(('',80))
+        self.sock = eventlet.listen(('',default_port))
         
         self.logger = common.log.getLogger('eventlet.wsgi.server')
         
