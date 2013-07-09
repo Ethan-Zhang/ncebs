@@ -22,6 +22,9 @@ class DomainEditor(object):
     def addDNS(self, name, ip, port):
         '''
         '''
+        if self.findDNS(name):
+            return False
+        
         server = [ '################domain ' + name + ' start################' + os.linesep 
                   +'upstream ' + name + '.' + self.DomainName + ' {' + os.linesep
                   +'\t\t' + 'server ' + ip + ':' + port + ' weight=1;' + os.linesep
@@ -38,13 +41,26 @@ class DomainEditor(object):
         servers = self.ofd.read()
         self.nfd.write(servers)
         self.nfd.writelines(server)
+        return True
         
     def delDNS(self, name):
         '''
         '''
+        if not self.findDNS(name):
+            return False
         servers = self.ofd.read()
         regex = re.compile('^##*domain '+name+' start#*(.*\n)+#*domain '+name+' end#*#$',re.M) 
         editservers = re.sub(regex,'',servers)
         self.nfd.write(editservers)
+        return True
         
-    
+    def findDNS(self, name):
+        '''
+        '''
+        servers = self.ofd.read()
+        regex = re.compile('^##*domain '+name+' start#*(.*\n)+#*domain '+name+' end#*#$',re.M)
+        server = re.search(regex, servers)
+        if server:
+            return True
+        else:
+            return False

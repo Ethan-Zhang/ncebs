@@ -37,10 +37,9 @@ class DomainsController(object):
         editor = DomainEditor(domain)
         editor.addDNS(name, ip, port)
         
-        
-    
-    def delete(self):
-        print req
+    def delete(self, req):
+        editor = DomainEditor(domain)
+        editor.delDNS(name)
 
 class RequestDeserializer(wsgi.JSONRequestDeserializer):
     
