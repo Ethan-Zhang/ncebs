@@ -6,6 +6,11 @@ Created on 2013-2-26
 import os
 import re
 from subprocess import Popen, PIPE
+
+from util.options import options, define
+
+define('--nginx_bin_path', name='nginx_bin_path', type='string')
+
 class NginxController(object):
     '''
     classdocs
@@ -20,7 +25,7 @@ class NginxController(object):
     
     def _TestConf(self):
         
-        f = Popen(('/usr/local/nginx/sbin/nginx', '-t'), stderr=PIPE).stderr
+        f = Popen((options.nginx_bin_path+'nginx', '-t'), stderr=PIPE).stderr
         err = f.read()
         regex = re.compile('test is successful')
         ret = re.search(regex, err)
@@ -30,12 +35,15 @@ class NginxController(object):
             return False
         
     def _ChangeConf(self):
-        os.rename('/usr/local/nginx/conf/conf.d/'+self.DomainName+'.conf', '/usr/local/nginx/conf/conf.d/'+self.DomainName+'.bak')
-        os.rename('/usr/local/nginx/conf/conf.d/'+self.DomainName+'-new.conf', '/usr/local/nginx/conf/conf.d/'+self.DomainName+'.conf')
+        os.rename(options.nginx_conf_path+self.DomainName+'.conf',
+                    options.nginx_conf_path+self.DomainName+'.bak')
+        os.rename(options.nginx_conf_path+self.DomainName+'-new.conf',
+                    options.nginx_conf_path+self.DomainName+'.conf')
         
     def _ChangeBackConf(self):
-        os.remove('/usr/local/nginx/conf/conf.d/'+self.DomainName+'.conf')
-        os.rename('/usr/local/nginx/conf/conf.d/'+self.DomainName+'.bak', '/usr/local/nginx/conf/conf.d/'+self.DomainName+'.conf')
+        os.remove(options.nginx_conf_path+self.DomainName+'.conf')
+        os.rename(options.nginx_conf_path+self.DomainName+'.bak',
+                    options.nginx_conf_path+self.DomainName+'.conf')
         
     def RestartNginx(self):
         

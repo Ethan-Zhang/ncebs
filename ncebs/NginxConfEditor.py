@@ -6,6 +6,10 @@ Created on 2013-2-25
 import os
 import re
 
+from util.options import options, define
+
+define('--nginx_conf_path', name='nginx_conf_path', type='string')
+
 class DomainEditor(object):
     '''
     classdocs
@@ -16,8 +20,8 @@ class DomainEditor(object):
         Constructor
         '''
         self.DomainName = DomainName
-        self.ofd = open('/var/local/ncebs/conf/conf.d/'+DomainName+'.conf', 'r+')
-        self.nfd = file('/var/local/ncebs/conf/conf.d/'+DomainName+'-new.conf', 'w+')
+        self.ofd = open(options.nginx_conf_path+DomainName+'.conf', 'r+')
+        self.nfd = file(options.nginx_conf_path+DomainName+'-new.conf', 'w+')
         
     def addDNS(self, name, ip, port):
         '''
