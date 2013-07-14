@@ -4,12 +4,24 @@ Created on 2013-4-1
 @author: zhangbin
 '''
 
+import os
 import logging
 import traceback
 
+from util.config import options, define
+
+define('--log-dir', name='logdir', type='string')
+
 def setup(product_name):
     try:
-        logging.basicConfig(filename='/home/zhangbin/ncebs/log/'+product_name ,level=logging.DEBUG)
+        log_dir = options.logdir
+        if not log_dir:
+            log_dir = os.path.normpath(os.path.join(__file__, 
+                                                    os.pardir, 
+                                                    os.pardir, 
+                                                    os.pardir,
+                                                    'log'))
+        logging.basicConfig(filename=log_dir+'/'+product_name+'.log' ,level=logging.DEBUG)
     except Exception:
         traceback.print_exc()
         raise

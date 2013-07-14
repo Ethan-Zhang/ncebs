@@ -6,7 +6,7 @@ Created on 2013-2-25
 import os
 import re
 
-from util.options import options, define
+from util.config import options, define
 
 define('--nginx_conf_path', name='nginx_conf_path', type='string')
 

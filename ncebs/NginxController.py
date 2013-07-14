@@ -7,7 +7,7 @@ import os
 import re
 from subprocess import Popen, PIPE
 
-from util.options import options, define
+from util.config import options, define
 
 define('--nginx_bin_path', name='nginx_bin_path', type='string')
 
