@@ -28,6 +28,10 @@ pip-log.txt
 # logs
 log/
 
+#conf
+conf/
+*.conf
+
 # Unit test / coverage reports
 .coverage
 .tox

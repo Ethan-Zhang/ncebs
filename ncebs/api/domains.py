@@ -5,22 +5,27 @@ Created on 2013-3-4
 '''
 import datetime
 import json
+import re
+
+import webob
+
 from common import wsgi
 from NginxConfEditor import DomainEditor
 from NginxController import NginxController
-import re
+from db.base import DBBase
 
-class DomainsController(object):
+class DomainsController(DBBase):
     '''
     classdocs
     '''
 
 
-    def __init__(selfparams):
+    def __init__(self):
         '''
         Constructor
         '''
-        pass
+        
+        super(DomainsController, self).__init__()
     
     def index(self, req):
         print req
@@ -36,6 +41,7 @@ class DomainsController(object):
         domain, name = domainparse(url)
         editor = DomainEditor(domain)
         editor.addDNS(name, ip, port)
+        self.db.dns_add(domain, name, ip, port)
         
     def delete(self, req, domain, name):
         editor = DomainEditor(domain)

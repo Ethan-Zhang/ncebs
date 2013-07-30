@@ -28,7 +28,7 @@ class DomainEditor(object):
         '''
         if self.findDNS(name):
             return False
-        
+
         server = [ '################domain ' + name + ' start################' + os.linesep 
                   +'upstream ' + name + '.' + self.DomainName + ' {' + os.linesep
                   +'\t\t' + 'server ' + ip + ':' + port + ' weight=1;' + os.linesep
