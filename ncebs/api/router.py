@@ -17,12 +17,12 @@ class API(wsgi.Router):
         Constructor
         '''
         domain_resource = domains.create_resource()
-        mapper.connect('/domains',
+        mapper.connect('/domains/{domain}',
                        controller=domain_resource,
                        action='index',
                        conditions={'method': ['GET']})
         
-        mapper.connect('/domains',
+        mapper.connect('/domains/{domain}/{name}',
                        controller=domain_resource,
                        action='create',
                        conditions={'method': ['POST']})
