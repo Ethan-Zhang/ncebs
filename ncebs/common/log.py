@@ -6,6 +6,7 @@ Created on 2013-4-1
 
 import os
 import logging
+import logging.handlers
 import traceback
 
 from util.config import options, define
@@ -21,16 +22,19 @@ def setup(product_name):
                                                     os.pardir, 
                                                     os.pardir,
                                                     'log'))
-        logging.basicConfig(filename=log_dir+'/'+product_name+'.log' ,level=logging.DEBUG)
+        logger=logging.getLogger()
+        logger.setLevel(logging.DEBUG)
+        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(module)s.%(funcName)s:%(lineno)d - %(message)s', '')
+        _console=logging.StreamHandler();
+        _file=logging.FileHandler(log_dir+'/'+product_name+'.log')
+        _file.setFormatter(formatter)
+        _console.setFormatter(formatter)
+        logger.addHandler(_console)
+        logger.addHandler(_file)
     except Exception:
         traceback.print_exc()
         raise
 
-def getLogger(name='unknown'):
-    logger = logging.getLogger(name)
-    logger.setLevel(logging.INFO)
-    return logger
-    
 class WritableLogger(object):
     '''
     classdocs
@@ -46,4 +50,5 @@ class WritableLogger(object):
         
     def write(self, msg):
         self.logger.log(self.level, msg)
-    
+
+LOG = logging.getLogger()    

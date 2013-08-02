@@ -51,7 +51,7 @@ class Server(object):
         self.application = application
         self.sock = eventlet.listen(('',default_port))
         
-        self.logger = common.log.getLogger('eventlet.wsgi.server')
+        self.logger = common.log.LOG
         
         workers = 1
         
