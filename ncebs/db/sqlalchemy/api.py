@@ -16,3 +16,15 @@ def dns_getList(domain):
     sel = sql.select([models.hualuyunhai])
     result = conn.execute(sel).fetchall()
     return  result
+
+def dns_getDetail(domain, id):
+    conn = engine.connect()
+    sql_sel = sql.select([models.hualuyunhai]).where(models.hualuyunhai.c.id
+                                                    == id)
+    result = conn.execute(sql_sel).fetchone()
+    return result
+
+def dns_del(domain, id):
+    conn = engine.connect()
+    sql_del = models.hualuyunhai.delete().where(models.hualuyunhai.c.id == id) 
+    result = conn.execute(sql_del)

@@ -37,9 +37,12 @@ class DomainsController(DBBase):
         editor.addDNS(name, ip, port)
         self.db.dns_add(domain, name, ip, port)
         
-    def delete(self, req, domain, name):
+    def delete(self, req, domain, id):
+        result = self.db.dns_getDetail(domain, id)
+        name = result[1]
         editor = DomainEditor(domain)
         editor.delDNS(name)
+        self.db.dns_del(domain, id)
 
 class RequestDeserializer(wsgi.JSONRequestDeserializer):
     
@@ -63,6 +66,7 @@ class RequestDeserializer(wsgi.JSONRequestDeserializer):
         port = body.pop('port', None)
         
         return dict(ip=ip, port=port)
+
 class ResponseSerializer(wsgi.JSONResponseSerializer):
 
     def __init__(self):
@@ -80,6 +84,9 @@ class ResponseSerializer(wsgi.JSONResponseSerializer):
 
     def create(self, response):
         response.status_int = 201
+    
+    def delete(self, response):
+        response.status_int = 204
 
 def create_resource():
     '''Domains resource factory method'''
