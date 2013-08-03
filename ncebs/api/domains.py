@@ -27,9 +27,10 @@ class DomainsController(DBBase):
         
         super(DomainsController, self).__init__()
     
-    def index(self, domain, req):
-        print req
-    
+    def index(self, req, domain):
+        result= self.db.dns_getList(domain)
+        return result
+
     def create(self, req, domain, name, ip, port):
 
         editor = DomainEditor(domain)
@@ -47,13 +48,15 @@ class RequestDeserializer(wsgi.JSONRequestDeserializer):
     
     def _get_request_body(self, request):
         output = super(RequestDeserializer, self).default(request)
-        print output
         if not 'body' in output:
             msg = 'Body expected in request.'
             raise webob.exc.HTTPBadRequest(msg)
-        print output
         return output['body']
     
+    def index(self, request):
+
+        return {}
+
     def create(self, request):
         body = self._get_request_body(request)
         ip = body.pop('ip', None)
@@ -64,6 +67,16 @@ class ResponseSerializer(wsgi.JSONResponseSerializer):
 
     def __init__(self):
         super(ResponseSerializer, self).__init__()
+
+    def index(self, response, domains):
+        body = {
+                "domains": [ {"id":domain[0],
+                              "name":domain[1],
+                              "ip":domain[2],
+                              "port":domain[3]} for domain in domains]
+                }
+        response.unicode_body = unicode(json.dumps(body))
+        response.content_type = 'application/json'
 
     def create(self, response):
         response.status_int = 201

@@ -3,7 +3,7 @@ import db.sqlalchemy.api
 IMPL = db.sqlalchemy.api
 
 def dns_add(domain, name, ip, port):
-    IMPL.dns_add(domain, name, ip, port)
+    return IMPL.dns_add(domain, name, ip, port)
 
-def dns_get(domain):
-    IMPL.dns_get(domain)
+def dns_getList(domain):
+    return IMPL.dns_getList(domain)
