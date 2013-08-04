@@ -36,6 +36,8 @@ class DomainsController(DBBase):
 
         editor = DomainEditor(domain)
         editor.addDNS(name, ip, port)
+        ctl = NginxController(domain)
+        ctl.RestartNginx()
         self.db.dns_add(domain, name, ip, port)
         
     def delete(self, req, domain, id):
@@ -43,6 +45,8 @@ class DomainsController(DBBase):
         name = result[1]
         editor = DomainEditor(domain)
         editor.delDNS(name)
+        ctl = NginxController(domain)
+        ctl.RestartNginx()
         self.db.dns_del(domain, id)
 
     def edit(self, req, domain, id, **kwargs):
@@ -51,6 +55,10 @@ class DomainsController(DBBase):
         name = result[1]
         ip = result[2]
         port = result[3]
+        
+        editor = DomainEditor(domain)
+        editor.delDNS(name)
+
         if 'ip' in kwargs:
             ip = kwargs['ip']
         if 'port' in kwargs:
@@ -58,6 +66,9 @@ class DomainsController(DBBase):
         if 'name' in kwargs:
             name = kwargs['name']
 
+        editor.addDNS(name, ip, port)
+        ctl = NginxController(domain)
+        ctl.RestartNginx()
         self.db.dns_edit(domain, id, name, ip, port)
 
 class RequestDeserializer(wsgi.JSONRequestDeserializer):

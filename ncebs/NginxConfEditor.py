@@ -30,14 +30,14 @@ class DomainEditor(object):
             return False
 
         server = [ '################domain ' + name + ' start################' + os.linesep 
-                  +'upstream ' + name + '.' + self.DomainName + ' {' + os.linesep
+                  +'upstream ' + name + '.' + self.DomainName + '.com {' + os.linesep
                   +'\t\t' + 'server ' + ip + ':' + port + ' weight=1;' + os.linesep
                   +'\t\t}' + os.linesep
                   +'server {' + os.linesep
                   +'\t' + 'listen ' + port + ';' + os.linesep
-                  +'\t' + 'server_name ' + name + '.' + self.DomainName + ';' + os.linesep
+                  +'\t' + 'server_name ' + name + '.' + self.DomainName + '.com;' + os.linesep
                   +'\t' + 'location / {' + os.linesep
-                  +'\t\t' + 'proxy_pass ' + 'http://' + name + '.' + self.DomainName + ';' +os.linesep
+                  +'\t\t' + 'proxy_pass ' + 'http://' + name + '.' + self.DomainName + '.com;' +os.linesep
                   +'\t\t' + 'proxy_set_header X-Forwarded-For $remote_addr;' + os.linesep
                   +'\t\t}' + os.linesep
                   +'\t}' + os.linesep
@@ -69,7 +69,3 @@ class DomainEditor(object):
         else:
             return False
 
-    def showDNS(self, name):
-        '''
-        '''
-        servers = self.ofd.read()

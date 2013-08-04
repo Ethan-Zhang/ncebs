@@ -40,6 +40,9 @@ nosetests.xml
 # Translations
 *.mo
 
+# script
+*.sh
+
 # Mr Developer
 .mr.developer.cfg
 .project
