@@ -31,5 +31,10 @@ class API(wsgi.Router):
                        controller=domain_resource,
                        action='delete',
                        conditions={'method': ['DELETE']})
+
+        mapper.connect('/domains/{domain}/{id}',
+                        controller=domain_resource,
+                        action='edit',
+                        conditions={'method':['PUT']})
         
         super(API, self).__init__(mapper)

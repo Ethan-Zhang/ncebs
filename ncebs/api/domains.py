@@ -13,6 +13,7 @@ from common import wsgi
 from NginxConfEditor import DomainEditor
 from NginxController import NginxController
 from db.base import DBBase
+from common.log import LOG
 
 class DomainsController(DBBase):
     '''
@@ -44,6 +45,21 @@ class DomainsController(DBBase):
         editor.delDNS(name)
         self.db.dns_del(domain, id)
 
+    def edit(self, req, domain, id, **kwargs):
+
+        result = self.db.dns_getDetail(domain, id)
+        name = result[1]
+        ip = result[2]
+        port = result[3]
+        if 'ip' in kwargs:
+            ip = kwargs['ip']
+        if 'port' in kwargs:
+            port = kwargs['port']
+        if 'name' in kwargs:
+            name = kwargs['name']
+
+        self.db.dns_edit(domain, id, name, ip, port)
+
 class RequestDeserializer(wsgi.JSONRequestDeserializer):
     
     def __init__(self):
@@ -67,6 +83,11 @@ class RequestDeserializer(wsgi.JSONRequestDeserializer):
         
         return dict(ip=ip, port=port)
 
+    def edit(self, request):
+        body = self._get_request_body(request)
+
+        return body
+
 class ResponseSerializer(wsgi.JSONResponseSerializer):
 
     def __init__(self):
@@ -87,6 +108,9 @@ class ResponseSerializer(wsgi.JSONResponseSerializer):
     
     def delete(self, response):
         response.status_int = 204
+    
+    def edit(self, response):
+        response.status_int = 200
 
 def create_resource():
     '''Domains resource factory method'''
